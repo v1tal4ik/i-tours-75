@@ -1,20 +1,20 @@
-import Header from '../header';
-import Tours from '../tours';
-import Footer from '../footer';
+import Header from 'components/header';
+import Tours from 'components/tours';
+import Footer from 'components/footer';
+
+// Vanila css
+// import './App.css';
+
+import style from './App.module.css';
+import { DARK, LIGHT } from 'constans';
 
 const App = () => {
-	const a = 5;
+	const theme = DARK;
 	return (
 		<div className='app-container'>
-			<Header />
-			<Tours />
-			<Footer>
-				<div>
-					123
-					<p>456</p>
-					<span>{a}</span>
-				</div>
-			</Footer>
+			<Header theme={theme} />
+			<Tours theme={theme} />
+			<Footer />
 		</div>
 	);
 };

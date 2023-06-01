@@ -1,0 +1,16 @@
+.tour-item {
+	padding: 10px 20px;
+	margin: 20px;
+	border: 1px solid #c9c9c9;
+	border-radius: 10px;
+}
+
+.error-item {
+	composes: tour-item;
+	border: 1px solid red;
+}
+
+.success-item {
+	composes: tour-item;
+	border: 1px solid green;
+}

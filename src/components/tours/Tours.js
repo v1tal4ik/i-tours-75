@@ -1,4 +1,7 @@
 import ToursItem from '../tours-item';
+import clsx from 'clsx';
+import './Tours.scss';
+import { DARK, LIGHT } from 'constans';
 
 const toursArray = [
 	{
@@ -38,14 +41,34 @@ const toursArray = [
 	},
 ];
 
-const Tours = () => {
+const Tours = ({ theme }) => {
+	// const getTheme = (value) => {
+	// 	if (value === DARK) {
+	// 		return {
+	// 			background: '#000',
+	// 			color: '#fff',
+	// 		};
+	// 	}
+	// 	if (value === LIGHT) {
+	// 		return {
+	// 			background: '#fff',
+	// 			color: '#000',
+	// 		};
+	// 	}
+	// };
 	return (
-		<div className='tours-container'>
+		<div
+			className={clsx('tours-container', {
+				dark: theme === DARK,
+				light: theme === LIGHT,
+			})}
+			// style={getTheme(theme)}
+		>
 			<h1>Tours page</h1>
 
 			<ul className='tours-list'>
 				{toursArray.map((tour) => (
-					<ToursItem key={tour.id} {...tour} />
+					<ToursItem key={tour.id} {...tour} theme={theme} />
 				))}
 			</ul>
 		</div>

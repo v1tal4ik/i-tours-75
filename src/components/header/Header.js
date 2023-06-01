@@ -1,8 +1,15 @@
-const Header = (props) => {
+import './Header.css';
+
+const Header = ({ theme }) => {
 	return (
-		<header>
+		<header
+			style={{
+				display: 'flex',
+				justifyContent: 'space-between',
+				alignItems: 'center',
+			}}>
 			<p>logo</p>
-			<button>theme</button>
+			<button>Current Theme:{theme}</button>
 		</header>
 	);
 };
