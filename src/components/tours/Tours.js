@@ -56,6 +56,7 @@ const Tours = ({ theme }) => {
 	// 		};
 	// 	}
 	// };
+
 	return (
 		<div
 			className={clsx('tours-container', {
@@ -65,6 +66,10 @@ const Tours = ({ theme }) => {
 			// style={getTheme(theme)}
 		>
 			<h1>Tours page</h1>
+
+			<div className='tours-container__controlls'>
+				<input type='text' placeholder='search...' />
+			</div>
 
 			<ul className='tours-list'>
 				{toursArray.map((tour) => (

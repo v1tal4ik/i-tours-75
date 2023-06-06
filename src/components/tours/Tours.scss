@@ -1,6 +1,11 @@
 .tours-container {
 	padding: 10px 20px;
 	background: #c9c9c9;
+
+	&__controlls {
+		text-align: center;
+		margin: 0 auto;
+	}
 }
 
 .dark {

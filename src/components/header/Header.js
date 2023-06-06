@@ -1,6 +1,6 @@
 import './Header.css';
 
-const Header = ({ theme }) => {
+const Header = ({ theme, onChangeTheme }) => {
 	return (
 		<header
 			style={{
@@ -9,7 +9,7 @@ const Header = ({ theme }) => {
 				alignItems: 'center',
 			}}>
 			<p>logo</p>
-			<button>Current Theme:{theme}</button>
+			<button onClick={onChangeTheme}>Current Theme:{theme}</button>
 		</header>
 	);
 };
