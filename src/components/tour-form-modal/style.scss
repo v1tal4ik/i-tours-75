@@ -1,0 +1,11 @@
+.tour-form-container {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+}
+
+.form-input {
+	padding: 5px 10px;
+	outline: none;
+	border-radius: 12px;
+}

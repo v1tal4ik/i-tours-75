@@ -2,6 +2,9 @@ import ToursItem from '../tours-item';
 import clsx from 'clsx';
 import './Tours.scss';
 import { DARK, LIGHT } from 'constans';
+import { Component } from 'react';
+import debounce from 'lodash.debounce';
+import TourFormModal from 'components/tour-form-modal/TourFormModal';
 
 const toursArray = [
 	{
@@ -41,43 +44,74 @@ const toursArray = [
 	},
 ];
 
-const Tours = ({ theme }) => {
-	// const getTheme = (value) => {
-	// 	if (value === DARK) {
-	// 		return {
-	// 			background: '#000',
-	// 			color: '#fff',
-	// 		};
-	// 	}
-	// 	if (value === LIGHT) {
-	// 		return {
-	// 			background: '#fff',
-	// 			color: '#000',
-	// 		};
-	// 	}
+class Tours extends Component {
+	state = {
+		visible: false,
+		query: '',
+		items: toursArray,
+	};
+
+	handleChangeQuery = (event) => {
+		this.setState({ query: event.target.value });
+	};
+
+	onOpenModal = () => {
+		this.setState({ visible: true });
+	};
+
+	onCloseModal = () => {
+		this.setState({ visible: false });
+	};
+
+	addNewTour = (tour) => {
+		this.setState((prevState) => ({ items: [...prevState.items, tour] }));
+	};
+
+	// handleFilterQuery = () => {
+	// 	const items = toursArray.filter(
+	// 		(el) =>
+	// 			el.name.toLowerCase().includes(this.state.query.toLowerCase()) &&
+	// 			el.continent.toLowerCase().includes(this.state.query.toLowerCase())
+	// 	);
+	// 	this.setState({ items });
 	// };
 
-	return (
-		<div
-			className={clsx('tours-container', {
-				dark: theme === DARK,
-				light: theme === LIGHT,
-			})}
-			// style={getTheme(theme)}
-		>
-			<h1>Tours page</h1>
+	render() {
+		const { theme } = this.props;
+		const { visible, query, items } = this.state;
+		return (
+			<>
+				<TourFormModal visible={visible} onClose={this.onCloseModal} onAddTour={this.addNewTour} />
 
-			<div className='tours-container__controlls'>
-				<input type='text' placeholder='search...' />
-			</div>
+				<div
+					className={clsx('tours-container', {
+						dark: theme === DARK,
+						light: theme === LIGHT,
+					})}
+					// style={getTheme(theme)}
+				>
+					<div className='tours-container__controlls'>
+						<h1>Tours page</h1>
+						<input
+							type='text'
+							placeholder='search...'
+							onChange={debounce(this.handleChangeQuery, 1000)}
+						/>
+						{/* <button onClick={this.handleFilterQuery}>Search</button> */}
+						<button onClick={this.onOpenModal}>Add tour</button>
+					</div>
 
-			<ul className='tours-list'>
-				{toursArray.map((tour) => (
-					<ToursItem key={tour.id} {...tour} theme={theme} />
-				))}
-			</ul>
-		</div>
-	);
-};
+					<ul className='tours-list'>
+						{items
+							.filter((el) => el.name.toLowerCase().includes(query.toLowerCase()))
+							.map((tour) => (
+								<ToursItem key={tour.id} {...tour} theme={theme} />
+							))}
+					</ul>
+				</div>
+			</>
+		);
+	}
+}
 
 export default Tours;
