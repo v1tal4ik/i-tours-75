@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 const Header = ({ theme, onChangeTheme }) => {
@@ -9,6 +10,8 @@ const Header = ({ theme, onChangeTheme }) => {
 				alignItems: 'center',
 			}}>
 			<p>logo</p>
+			<Link to='/foo'>go to</Link>
+
 			<button onClick={onChangeTheme}>Current Theme:{theme}</button>
 		</header>
 	);

@@ -9,6 +9,7 @@ import { DARK, LIGHT } from 'constans';
 
 import style from './App.module.css';
 import { Component } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 class App extends Component {
 	state = {
@@ -24,7 +25,12 @@ class App extends Component {
 		return (
 			<div className='app-container'>
 				<Header theme={theme} onChangeTheme={this.handleChangeTheme} />
-				<Tours theme={theme} />
+
+				<Routes>
+					<Route path='/' element={<Tours theme={theme} />} />
+					<Route path='/foo' element={<></>} />
+				</Routes>
+
 				<Footer />
 			</div>
 		);

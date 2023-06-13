@@ -5,51 +5,54 @@ import { DARK, LIGHT } from 'constans';
 import { Component } from 'react';
 import debounce from 'lodash.debounce';
 import TourFormModal from 'components/tour-form-modal/TourFormModal';
+import { fetchFilteredTours, fetchTours } from 'helpers';
 
-const toursArray = [
-	{
-		id: 1,
-		name: 'Portugalia vibe',
-		price: 3000,
-		continent: 'Europe',
-		description: 'Best tour for discover Portugal',
-	},
-	{
-		id: 2,
-		name: 'The breath of Italy',
-		price: 5000,
-		continent: 'Europe',
-		// description: 'Best tour for discover Italia',
-	},
-	{
-		id: 3,
-		name: 'Spanish bullfight',
-		price: 1000,
-		continent: 'Europe',
-		description: 'A new experience from watching a bullfight',
-	},
-	{
-		id: 4,
-		name: 'Germany race',
-		price: 15000,
-		continent: 'Europe',
-		// description: 'A quick walk on the German autobahns',
-	},
-	{
-		id: 5,
-		name: 'Indian traditions',
-		price: 123,
-		continent: 'Asia',
-		// description: 'Best tour for discover Asia',
-	},
-];
+const initialState = {
+	visible: false,
+	query: '',
+	total_items: 0,
+	items: [],
+	isLoading: false,
+};
 
 class Tours extends Component {
-	state = {
-		visible: false,
-		query: '',
-		items: toursArray,
-	};
+	state = initialState;
+
+	async componentDidMount() {
+		this.setState({ isLoading: true });
+
+		await fetchTours();
+
+		this.setState({ isLoading: false });
+
+		const { total_items, items } = await fetchTours();
+
+		this.setState({
+			isLoading: false,
+			total_items,
+			items,
+		});
+	}
+
+	shouldComponentUpdate(_, nextState) {
+		if (this.state.isLoading && !nextState.isLoading && this.state.total_items === 0) {
+			return false;
+		}
+		return true;
+	}
+
+	async componentDidUpdate(prevProps, prevState) {
+		console.log('work');
+		if (prevState.query !== this.state.query) {
+			this.setState({ isLoading: true });
+			const { total_items, items } = await fetchFilteredTours(this.state.query);
+			this.setState({
+				isLoading: false,
+				total_items,
+				items,
+			});
+		}
+	}
 
 	handleChangeQuery = (event) => {
 		this.setState({ query: event.target.value });
@@ -76,9 +79,14 @@ class Tours extends Component {
 	// 	this.setState({ items });
 	// };
 
+	componentWillUnmount() {
+		console.log('componentWillUnmount');
+	}
+
 	render() {
 		const { theme } = this.props;
-		const { visible, query, items } = this.state;
+		const { visible, query, total_items, items, isLoading } = this.state;
+		// console.log(this.state);
 		return (
 			<>
 				<TourFormModal visible={visible} onClose={this.onCloseModal} onAddTour={this.addNewTour} />
@@ -93,6 +101,7 @@ class Tours extends Component {
 					<div className='tours-container__controlls'>
 						<h1>Tours page</h1>
 						<input
+							id='search-input'
 							type='text'
 							placeholder='search...'
 							onChange={debounce(this.handleChangeQuery, 1000)}
@@ -101,13 +110,24 @@ class Tours extends Component {
 						<button onClick={this.onOpenModal}>Add tour</button>
 					</div>
 
-					<ul className='tours-list'>
-						{items
-							.filter((el) => el.name.toLowerCase().includes(query.toLowerCase()))
-							.map((tour) => (
-								<ToursItem key={tour.id} {...tour} theme={theme} />
-							))}
-					</ul>
+					{isLoading ? (
+						<div>loading...</div>
+					) : (
+						<>
+							{total_items && (
+								<div>
+									<p>Total items:{total_items}</p>
+									<ul className='tours-list'>
+										{items
+											// .filter((el) => el.name.toLowerCase().includes(query.toLowerCase()))
+											.map((tour) => (
+												<ToursItem key={tour.id} {...tour} theme={theme} />
+											))}
+									</ul>
+								</div>
+							)}
+						</>
+					)}
 				</div>
 			</>
 		);

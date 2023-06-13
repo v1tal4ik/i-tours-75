@@ -3,6 +3,7 @@ import Rodal from 'rodal';
 
 import 'rodal/lib/rodal.css';
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 const continentOptions = [
 	'Asia',
@@ -72,6 +73,7 @@ class TourFormModal extends Component {
 			<Rodal visible={visible} onClose={onClose} height={600}>
 				<div>
 					<h4>Add new Tour</h4>
+
 					<form className='tour-form-container' onSubmit={this.handleSubmit}>
 						<input
 							className='form-input'
