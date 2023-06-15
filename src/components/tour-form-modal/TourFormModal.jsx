@@ -52,17 +52,19 @@ class TourFormModal extends Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 
+		const form = event.target;
+
 		const tour = {
-			id: Math.ceil(Math.random() * 10000),
-			name: event.target.elements.name.value,
-			price: +event.target.elements.price.value,
-			continent: event.target.elements.continent.value,
+			name: form.elements.name.value,
+			price: +form.elements.price.value,
+			continent: form.elements.continent.value,
 		};
 
 		if (this.state.isDescription) {
-			tour.description = event.target.elements.description.value;
+			tour.description = form.elements.description.value;
 		}
 		this.props.onAddTour(tour);
+		form.reset();
 		this.props.onClose();
 	};
 
