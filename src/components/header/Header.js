@@ -1,7 +1,16 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 
 const Header = ({ theme, onChangeTheme }) => {
+	// componentDidMount
+
+	// useEffect(() => {
+	// 	console.log('work useEffect');
+	// }, []);
+
+	// console.log('render', toggle);
+
 	return (
 		<header
 			style={{

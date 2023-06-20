@@ -71,6 +71,7 @@ class TourFormModal extends Component {
 	render() {
 		const { visible, onClose } = this.props;
 		const { isDescription } = this.state;
+
 		return (
 			<Rodal visible={visible} onClose={onClose} height={600}>
 				<div>
