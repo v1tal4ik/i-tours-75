@@ -3,13 +3,16 @@ import clsx from 'clsx';
 import { DARK, LIGHT } from 'constans';
 
 import css from './style.module.css';
+import { useThemeContext } from 'hooks/useTheme';
 
-const ToursItem = ({ id, name, price, continent, description, theme, onDelete }) => {
+const ToursItem = ({ id, name, price, continent, description, onDelete }) => {
+	const { theme } = useThemeContext();
+
 	return (
 		<li
 			className={clsx(css['tour-item'], {
-				dark: theme === LIGHT,
-				light: theme === DARK,
+				[css.dark]: theme === LIGHT,
+				[css.light]: theme === DARK,
 			})}
 			// className={`${!description ? css['error-item'] : css['success-item']}`}
 		>
@@ -27,7 +30,6 @@ ToursItem.propTypes = {
 	price: PropTypes.number.isRequired,
 	continent: PropTypes.string.isRequired,
 	description: PropTypes.string,
-	theme: PropTypes.string.isRequired,
 };
 
 export default ToursItem;

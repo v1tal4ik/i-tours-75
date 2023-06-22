@@ -5,6 +5,16 @@
 	border-radius: 10px;
 }
 
+.dark {
+	background: #000;
+	color: #fff;
+}
+
+.light {
+	background: #fff;
+	color: #000;
+}
+
 .error-item {
 	composes: tour-item;
 	border: 1px solid red;

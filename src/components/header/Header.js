@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useThemeContext } from 'hooks/useTheme';
 import './Header.css';
 
-const Header = ({ theme, onChangeTheme }) => {
-	// componentDidMount
-
-	// useEffect(() => {
-	// 	console.log('work useEffect');
-	// }, []);
-
-	// console.log('render', toggle);
+const Header = () => {
+	const { theme, onChangeTheme } = useThemeContext();
+	const inputRef = useRef(null);
 
 	return (
 		<header
@@ -18,7 +14,7 @@ const Header = ({ theme, onChangeTheme }) => {
 				justifyContent: 'space-between',
 				alignItems: 'center',
 			}}>
-			<p>logo</p>
+			<p ref={inputRef}>logo</p>
 			<Link to='/foo'>go to</Link>
 
 			<button onClick={onChangeTheme}>Current Theme:{theme}</button>
