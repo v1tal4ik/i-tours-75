@@ -4,3 +4,22 @@ header {
 
 	padding: 10px 20px;
 }
+
+header nav {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	column-gap: 15px;
+}
+
+header nav .nav-item {
+	text-decoration: none;
+	color: #000;
+}
+header nav .nav-item.active {
+	color: #53e283;
+}
+header nav .nav-item:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
