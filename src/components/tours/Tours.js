@@ -4,13 +4,20 @@ import ToursItem from 'components/tours-item/ToursItems';
 import debounce from 'lodash.debounce';
 import { addTour, fetchTours } from 'api/tours';
 import useToggle from 'hooks/useToggle';
+import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 
 const ToursHooks = () => {
 	const { visible, open, close } = useToggle(false);
 
+	const location = useLocation();
+
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const query = searchParams.get('name');
+
 	const [isLoading, setIsLoading] = useState(false);
 
-	const [query, setQuery] = useState('');
+	// const [query, setQuery] = useState('');
 	const [errorMessage, setError] = useState('');
 
 	const [toursData, setToursData] = useState({
@@ -49,14 +56,15 @@ const ToursHooks = () => {
 			setToursData(data);
 		};
 		load();
-	}, []);
+	}, [query]);
 
 	// componentWillUnmount
 
 	useEffect(() => () => console.log('componentWillUnmount'), []);
 
 	const handleChangeQuery = debounce((e) => {
-		setQuery(e.target.value);
+		// setQuery(e.target.value);
+		setSearchParams({ name: e.target.value });
 	}, 1000);
 
 	const handleAddNewTour = async (tour) => {
@@ -67,7 +75,10 @@ const ToursHooks = () => {
 	const filteredItemsCached = useMemo(
 		() =>
 			toursData.items.filter((el) => {
-				return el.name.toLowerCase().includes(query.toLowerCase());
+				if (query) {
+					return el.name.toLowerCase().includes(query.toLowerCase());
+				}
+				return true;
 			}),
 		[toursData.items, query]
 	);
@@ -83,6 +94,7 @@ const ToursHooks = () => {
 						id='search-input'
 						type='text'
 						placeholder='search...'
+						// value={query}
 						onChange={handleChangeQuery}
 					/>
 					<button onClick={open}>Add tour</button>

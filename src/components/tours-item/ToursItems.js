@@ -4,10 +4,12 @@ import { DARK, LIGHT } from 'constans';
 
 import css from './style.module.css';
 import { useThemeContext } from 'hooks/useTheme';
-import { Link } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
 const ToursItem = ({ id, name, price, continent, description, onDelete }) => {
 	const { theme } = useThemeContext();
+	// const { tourId } = useParams();
+	const location = useLocation();
 
 	return (
 		<li
@@ -22,7 +24,13 @@ const ToursItem = ({ id, name, price, continent, description, onDelete }) => {
 			<p>Continent:{continent}</p>
 			{description && <p>Description:{description}</p>}
 			<button onClick={() => onDelete(id)}>Delete</button>
-			<Link to={`/tours/${id}/details`}>view details</Link>
+			{/* <Link to={`/tours/${id}/details`}>view details</Link> */}
+			{/* <Link to={`/tours/${id}`}>more</Link> */}
+			<Link to='/tours' state={{ id }}>
+				more
+			</Link>
+
+			{id === location.state?.id && <Outlet />}
 		</li>
 	);
 };

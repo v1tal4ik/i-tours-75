@@ -1,11 +1,20 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useThemeContext } from 'hooks/useTheme';
-import './Header.css';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import css from './Header.module.css';
 
 const Header = () => {
 	const { theme, onChangeTheme } = useThemeContext();
 	const inputRef = useRef(null);
+
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const handleRedirect = () => {
+		// navigate('secret', { replace: true });
+		// navigate(-1);
+		navigate('contact-us', { state: { from: location } });
+	};
 
 	return (
 		<header
@@ -17,16 +26,20 @@ const Header = () => {
 			<p ref={inputRef}>logo</p>
 
 			<nav>
-				<NavLink className='nav-item' to='/tours'>
+				<NavLink
+					className={({ isActive }) => `${css['nav-item']}  ${isActive ? css['active'] : ''}`}
+					to='/tours'>
 					Tours
 				</NavLink>
-				<NavLink className='nav-item' to='/contact-us'>
+				<NavLink className={css['nav-item']} to='/contact-us'>
 					Contact us
 				</NavLink>
-				<NavLink className='nav-item' to='/support'>
+				<NavLink className={css['nav-item']} to='/support'>
 					Support
 				</NavLink>
 			</nav>
+
+			<button onClick={handleRedirect}>Go to another route</button>
 
 			<button onClick={onChangeTheme}>Current Theme:{theme}</button>
 		</header>

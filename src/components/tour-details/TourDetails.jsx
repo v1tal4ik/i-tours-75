@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 const TourDetails = () => {
 	const { tourId } = useParams();
+	const {
+		state: { id },
+	} = useLocation();
 
 	useEffect(() => {
 		console.log('fetch data for tour', tourId);
@@ -10,7 +13,7 @@ const TourDetails = () => {
 
 	return (
 		<div className='container'>
-			<h1>Tour details for:{tourId} </h1>
+			<h1>Tour details for:{id} </h1>
 		</div>
 	);
 };
